@@ -1,5 +1,6 @@
 package com.moringa.newsapp;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         return 0;
     }
 
-    public class ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
     }
 }
