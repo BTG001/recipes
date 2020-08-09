@@ -16,5 +16,6 @@ public class ApiClient {
         if (apiClient == null) {
             apiClient = new ApiClient();
         }
+        return apiClient;
     }
 }
