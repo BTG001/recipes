@@ -1,4 +1,4 @@
 package com.moringa.newsapp.Model;
 
-public class News {
+public class Articles {
 }
