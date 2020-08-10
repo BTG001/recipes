@@ -40,7 +40,12 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<Headlines>() {
             @Override
             public void onResponse(Call<Headlines> call, Response<Headlines> response) {
-                if (response.isSuccessful() )
+                if (response.isSuccessful() && response.body().getArticles() != null) {
+                    articles.clear();
+                    articles = response.body().getArticles();
+                    adapter = new Adapter(MainActivity.this, articles);
+                    recyclerView.setAdapter(adapter);
+                }
             }
 
             @Override
