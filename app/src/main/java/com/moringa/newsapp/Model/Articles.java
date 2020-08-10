@@ -21,6 +21,18 @@ public class Articles {
     @Expose
     private String description;
 
+    @SerializedName("url")
+    @Expose
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @SerializedName("urlToImage")
     @Expose
     private String urlToImage;
@@ -28,6 +40,8 @@ public class Articles {
     @SerializedName("publishedAt")
     @Expose
     private String publishedAt;
+
+
 
     public Source getSource() {
         return source;
