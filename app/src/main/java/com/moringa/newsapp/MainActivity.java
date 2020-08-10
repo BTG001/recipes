@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        String country = getCountry();
+        retrieveJson(country, API_KEY);
 
     }
 
