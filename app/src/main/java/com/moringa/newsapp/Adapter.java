@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.moringa.newsapp.Model.Articles;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -34,7 +35,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Articles a = articles.get(position);
+        holder.tvTitle.setText(a.getTitle());
+        holder.tvSource.setText(a.getSource().getName());
+        holder.tvDate.setText(a.getPublishedAt());
 
+        String imageUrl = a.getUrlToImage();
+
+        Picasso.with(context).load(imageUrl).into(holder.imageView);
     }
 
     @Override
