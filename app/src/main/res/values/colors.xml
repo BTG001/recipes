@@ -6,6 +6,7 @@
     <color name="colorDivider">#B6B6B6</color>
     <color name="colorTextIcons">#FFFFFF</color>
     <color name="colorPrimaryLight">#FFCCBC</color>
+    <color name="colorPrimary2">#FF5722</color>
 
     <color name="grey">#eeefee</color>
     <color name="red">#CE0700</color>

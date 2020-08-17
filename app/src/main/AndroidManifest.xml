@@ -26,6 +26,7 @@
         <activity
             android:name=".SplashScreen"
             android:screenOrientation="locked">
+
         </activity>
         <activity
             android:name=".MainActivity"
