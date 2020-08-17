@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.moringa.newsapp.Model.Articles;
 import com.moringa.newsapp.Model.Headlines;
 
@@ -114,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
     }
 
 
