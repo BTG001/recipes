@@ -76,10 +76,19 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(intToHome);
                             }
                         }
-                    })
-                } else {
-                    Toast.makeText(CreateAccountActivity.this, "Error Occured!", Toast.LENGTH_SHORT).show();
+                    });
                 }
+                else {
+                    Toast.makeText(LoginActivity.this, "Error Occured!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        tvSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intSignUp = new Intent(LoginActivity.this, CreateAccountActivity.class);
+                startActivity(intSignUp);
             }
         });
     }
