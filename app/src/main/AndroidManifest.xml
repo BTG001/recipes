@@ -11,21 +11,16 @@
         android:roundIcon="@drawable/circle_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateAccountActivity"></activity>
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".CreateAccountActivity" />
         <activity
             android:name=".Detailed"
             android:screenOrientation="locked"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".SplashScreen"
-            android:screenOrientation="locked"></activity>
+            android:screenOrientation="locked" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="locked"
