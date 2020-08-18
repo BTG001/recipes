@@ -30,6 +30,14 @@ public class CreateAccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = emailId.getText().toString();
                 String pwd = password.getText().toString();
+                if (email.isEmpty()) {
+                    emailId.setError("Please enter email id");
+                    emailId.requestFocus();
+                }
+                else if (pwd.isEmpty()) {
+                    password.setError("Please enter your password");
+                    password.requestFocus();
+                }
             }
         });
     }
