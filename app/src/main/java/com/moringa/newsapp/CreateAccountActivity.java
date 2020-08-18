@@ -31,6 +31,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         emailId = findViewById(R.id.editText);
         password = findViewById(R.id.editText2);
         btnSignUp = findViewById(R.id.button2);
+        tvSignIn = findViewById(R.id.textView);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,27 +40,33 @@ public class CreateAccountActivity extends AppCompatActivity {
                 if (email.isEmpty()) {
                     emailId.setError("Please enter email id");
                     emailId.requestFocus();
-                }
-                else if (pwd.isEmpty()) {
+                } else if (pwd.isEmpty()) {
                     password.setError("Please enter your password");
                     password.requestFocus();
-                }
-                else if (email.isEmpty() && pwd.isEmpty()) {
+                } else if (email.isEmpty() && pwd.isEmpty()) {
                     Toast.makeText(CreateAccountActivity.this, "Fields are Empty!", Toast.LENGTH_SHORT).show();
-                }
-                else if (! (email.isEmpty() && pwd.isEmpty())) {
+                } else if (!(email.isEmpty() && pwd.isEmpty())) {
                     mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(CreateAccountActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(CreateAccountActivity.this, "SignUp Unsuccessful, Please Try again", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
+                            } else {
                                 startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
                             }
                         }
                     });
+                } else {
+                    Toast.makeText(CreateAccountActivity.this, "Error Occured!", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        tvSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(CreateAccountActivity.this, LoginActivity.class);
+                startActivity(i);
             }
         });
     }
