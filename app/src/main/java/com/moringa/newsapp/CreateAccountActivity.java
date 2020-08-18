@@ -54,9 +54,11 @@ public class CreateAccountActivity extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(CreateAccountActivity.this, "SignUp Unsuccessful, Please Try again", Toast.LENGTH_SHORT).show();
                             }
-
+                            else {
+                                startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
+                            }
                         }
-                    })
+                    });
                 }
             }
         });
