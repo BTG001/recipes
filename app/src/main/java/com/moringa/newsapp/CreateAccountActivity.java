@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -37,6 +38,9 @@ public class CreateAccountActivity extends AppCompatActivity {
                 else if (pwd.isEmpty()) {
                     password.setError("Please enter your password");
                     password.requestFocus();
+                }
+                else if (email.isEmpty() && pwd.isEmpty()) {
+                    Toast.makeText(CreateAccountActivity.this, "Fields are Empty!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
