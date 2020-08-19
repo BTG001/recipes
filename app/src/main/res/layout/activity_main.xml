@@ -33,6 +33,13 @@
             android:background="@drawable/ic_dot_24dp"
             android:id="@+id/aboutUs"/>
 
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:text="Logout" />
+
 
     </LinearLayout>
 

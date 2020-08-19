@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,100 +15,60 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final String TAG = CreateAccountActivity.class.getSimpleName();
-    @BindView(R.id.createUserButton) Button mCreateUserButton;
-    @BindView(R.id.nameEditText) EditText mNameEditText;
-    @BindView(R.id.emailEditText) EditText mEmailEditText;
-    @BindView(R.id.passwordEditText) EditText mPasswordEditText;
-    @BindView(R.id.confirmPasswordEditText) EditText mConfirmPasswordEditText;
-    @BindView(R.id.loginTextView) TextView mLoginTextView;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-
+public class CreateAccountActivity extends AppCompatActivity {
+    EditText emailId, password;
+    Button btnSignUp;
+    TextView tvSignIn;
+    FirebaseAuth mFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
-        ButterKnife.bind(this);
 
-        mAuth = FirebaseAuth.getInstance();
-        mLoginTextView.setOnClickListener(this);
-        mCreateUserButton.setOnClickListener(this);
-        createAuthStateListener();
-    }
-
-    @Override
-    public void onClick(View view) {
-
-        if (view == mLoginTextView) {
-            Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        }
-
-        if (view == mCreateUserButton) {
-            createNewUser();
-        }
-
-    }
-
-    private void createNewUser() {
-        final String name = mNameEditText.getText().toString().trim();
-        final String email = mEmailEditText.getText().toString().trim();
-        String password = mPasswordEditText.getText().toString().trim();
-        String confirmPassword = mConfirmPasswordEditText.getText().toString().trim();
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "Authentication successful");
-                        } else {
-                            Toast.makeText(CreateAccountActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    private void createAuthStateListener() {
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        emailId = findViewById(R.id.editText);
+        password = findViewById(R.id.editText2);
+        btnSignUp = findViewById(R.id.button2);
+        tvSignIn = findViewById(R.id.textView);
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                final FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
+            public void onClick(View view) {
+                String email = emailId.getText().toString();
+                String pwd = password.getText().toString();
+                if (email.isEmpty()) {
+                    emailId.setError("Please enter email id");
+                    emailId.requestFocus();
+                } else if (pwd.isEmpty()) {
+                    password.setError("Please enter your password");
+                    password.requestFocus();
+                } else if (email.isEmpty() && pwd.isEmpty()) {
+                    Toast.makeText(CreateAccountActivity.this, "Fields are Empty!", Toast.LENGTH_SHORT).show();
+                } else if (!(email.isEmpty() && pwd.isEmpty())) {
+                    mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(CreateAccountActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(CreateAccountActivity.this, "SignUp Unsuccessful, Please Try again", Toast.LENGTH_SHORT).show();
+                            } else {
+                                startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(CreateAccountActivity.this, "Error Occured!", Toast.LENGTH_SHORT).show();
                 }
             }
+        });
 
-        };
+        tvSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(CreateAccountActivity.this, LoginActivity.class);
+                startActivity(i);
+            }
+        });
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
-
 }
+

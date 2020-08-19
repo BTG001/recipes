@@ -17,27 +17,85 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    @BindView(R.id.registerTextView) TextView mRegisterTextView;
+public class LoginActivity extends AppCompatActivity {
+    EditText emailId, password;
+    Button btnSignIn;
+    TextView tvSignUp;
+    FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        ButterKnife.bind(this);
-        mRegisterTextView.setOnClickListener(this);
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        emailId = findViewById(R.id.editText);
+        password = findViewById(R.id.editText2);
+        btnSignIn = findViewById(R.id.button2);
+        tvSignUp = findViewById(R.id.textView);
+
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+                if (mFirebaseUser !=null ) {
+                    Toast.makeText(LoginActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
+                }
+                else {
+                    Toast.makeText(LoginActivity.this, "Please Login", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = emailId.getText().toString();
+                String pwd = password.getText().toString();
+                if (email.isEmpty()) {
+                    emailId.setError("Please enter email id");
+                    emailId.requestFocus();
+                } else if (pwd.isEmpty()) {
+                    password.setError("Please enter your password");
+                    password.requestFocus();
+                } else if (email.isEmpty() && pwd.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Fields are Empty!", Toast.LENGTH_SHORT).show();
+                } else if (!(email.isEmpty() && pwd.isEmpty())) {
+                    mFirebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(LoginActivity.this, "Login Error, Please Login Again", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Intent intToHome = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intToHome);
+                            }
+                        }
+                    });
+                }
+                else {
+                    Toast.makeText(LoginActivity.this, "Error Occured!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        tvSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intSignUp = new Intent(LoginActivity.this, CreateAccountActivity.class);
+                startActivity(intSignUp);
+            }
+        });
     }
 
     @Override
-    public void onClick(View view) {
-        if (view == mRegisterTextView) {
-            Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
-            startActivity(intent);
-            finish();
-        }
+    protected void onStart() {
+        super.onStart();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 }

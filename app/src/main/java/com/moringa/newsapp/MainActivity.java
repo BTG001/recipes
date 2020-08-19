@@ -8,9 +8,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +28,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button btnLogout;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     EditText etQuery;
@@ -50,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         etQuery = findViewById(R.id.etQuery);
         btnSearch = findViewById(R.id.btnSearch);
         btnAboutUs = findViewById(R.id.aboutUs);
+        btnLogout = findViewById(R.id.logout);
+
         dialog = new Dialog(MainActivity.this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -91,6 +91,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showDialog();
+            }
+        });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intToMain = new Intent(MainActivity.this, CreateAccountActivity.class);
+                startActivity(intToMain);
             }
         });
 
