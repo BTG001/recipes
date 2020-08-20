@@ -29,8 +29,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-
+    //Create member variables to store reference to the shared preferences tool itself (mSharedPreferences)
     private SharedPreferences mSharedPreferences;
+    //dedicated tool we must use to edit the member variable(mEditor)
     private SharedPreferences.Editor mEditor;
 
     Button btnLogout;
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Call Firebase's getInstance() method on our FirebaseAuth object and use Firebase's built-in signOut() method to sign the user out of their session.
                 FirebaseAuth.getInstance().signOut();
                 Intent intToMain = new Intent(MainActivity.this, CreateAccountActivity.class);
                 startActivity(intToMain);
@@ -179,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Create a method called addToSharedPreferences(), which calls upon the editor to write information to shared preferences
     private void addToSharedPreferences(String headlines) {
         mEditor.putString(Constants.PREFERENCES_HEADLINES_KEY, headlines).apply();
     }

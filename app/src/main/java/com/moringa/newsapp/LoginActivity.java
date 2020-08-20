@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnSignIn;
     TextView tvSignUp;
     FirebaseAuth mFirebaseAuth;
+    //Add the mAuthStateListener member variable, setting it in our onCreate() method
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     @Override
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                //Create a FirebaseUser by calling the getCurrentUser() method. We double-check that this user is not null before traveling to the MainActivity.
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 if (mFirebaseUser !=null ) {
                     Toast.makeText(LoginActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
@@ -93,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    //Call addAuthStateListener() in the onStart() lifecycle method to add AuthStateListener to our FirebaseAuth object
     @Override
     protected void onStart() {
         super.onStart();

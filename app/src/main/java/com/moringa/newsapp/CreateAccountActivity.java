@@ -20,6 +20,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     EditText emailId, password;
     Button btnSignUp;
     TextView tvSignIn;
+    //Add a member variable to get the instance of the FirebaseAuth object
     FirebaseAuth mFirebaseAuth;
 
     @Override
